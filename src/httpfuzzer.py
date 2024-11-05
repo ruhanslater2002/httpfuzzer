@@ -31,7 +31,7 @@ class HttpFuzzer:
                     try:
                         response = httphandler.get_status_code()  # Make sure this matches your method
                     except Exception as e:
-                        print(f"[{self.minus}] Fuzzing error: {e}")
+                        print(f"[{self.minus}] Fuzzing error: {colored(full_url, "red")}, error: {e}")
                         time.sleep(30)  # Waits 30 seconds if to many requests
                         response = httphandler.get_status_code()  # Make sure this matches your method
                     if response == 200:
