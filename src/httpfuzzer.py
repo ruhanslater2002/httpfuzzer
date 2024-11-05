@@ -28,7 +28,12 @@ class HttpFuzzer:
                 try:
                     # Gets status code from combined url
                     time.sleep(self.threading)  # Introduce a delay
-                    response = httphandler.get_status_code()  # Make sure this matches your method
+                    try:
+                        response = httphandler.get_status_code()  # Make sure this matches your method
+                    except Exception as e:
+                        print(f"[{self.minus}] Fuzzing error: {e}")
+                        time.sleep(30)  # Waits 30 seconds if to many requests
+                        response = httphandler.get_status_code()  # Make sure this matches your method
                     if response == 200:
                         print(f"[{self.plus}] Response {response} from {colored(full_url, "green")}")
                 except KeyboardInterrupt:
