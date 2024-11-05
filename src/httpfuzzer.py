@@ -1,5 +1,6 @@
 from httphandler import HttpHandler
 from termcolor import colored
+import time
 
 
 class HttpFuzzer:
@@ -14,17 +15,20 @@ class HttpFuzzer:
     def fuzz_hidden_directories(self):
         with open(self.wordlist, "r") as wordlist:
             for word in wordlist:
-                word.strip()
+                word = word.strip()  # Use the assignment to strip whitespace
+                if not word:  # Skip empty lines
+                    continue
+
                 # Combines url and word
-                self.url = self.url + '/' + word
+                full_url = f"{self.url}/{word}"
+
                 # Creates the instance with the combined word
-                httphandler: HttpHandler = HttpHandler(self.url)
+                httphandler: HttpHandler = HttpHandler(full_url)
                 try:
                     # Gets status code from combined url
-                    response: int = httphandler.get_status_code()
+                    time.sleep(0.3)  # Introduce a delay
+                    response = httphandler.get_status_code()  # Make sure this matches your method
                     if response == 200:
-                        print(f"[{self.plus}] Response {response} from {self.url}")
-                    # else:
-                    #     print(f"[{self.plus}] Response {response} from {self.url}")
-                except Exception as e:
-                    print(f"[{self.minus}] Error: {e}")
+                        print(f"[{self.plus}] Response {response} from {full_url}")
+                except:
+                    continue
