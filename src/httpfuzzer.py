@@ -29,6 +29,7 @@ class HttpFuzzer:
                     time.sleep(0.3)  # Introduce a delay
                     response = httphandler.get_status_code()  # Make sure this matches your method
                     if response == 200:
-                        print(f"[{self.plus}] Response {response} from {full_url}")
-                except:
-                    continue
+                        print(f"[{self.plus}] Response {response} from {colored(full_url, "green")}")
+                except KeyboardInterrupt:
+                    print(f"[{self.minus}] Fuzzing canceled.")
+                    break
