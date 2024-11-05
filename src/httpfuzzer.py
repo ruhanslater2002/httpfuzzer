@@ -1,6 +1,7 @@
 from httphandler import HttpHandler
 from termcolor import colored
 import time
+from typing import List
 
 
 class HttpFuzzer:
@@ -14,26 +15,29 @@ class HttpFuzzer:
         self.threading = threading
 
     def fuzz_hidden_directories(self):
-        with open(self.wordlist, "r") as wordlist:
-            for word in wordlist:
-                word = word.strip()  # Use the assignment to strip whitespace
-                if not word:  # Skip empty lines
-                    continue
-                # Combines url and word
-                full_url = f"{self.url}/{word}"
-                # Creates the instance with the combined word
-                httphandler: HttpHandler = HttpHandler(full_url)
+        wordlist: List[str] = self.load_wordlist()
+        for word in wordlist:
+            word = word.strip()  # Use the assignment to strip whitespace
+            if not word:  # Skip empty lines
+                continue
+            # Combines url and word
+            full_url = f"{self.url}/{word}"
+            # Creates the instance with the combined word
+            httphandler: HttpHandler = HttpHandler(full_url)
+            try:
+                time.sleep(self.threading)  # Introduce a delay
                 try:
-                    # Gets status code from combined url
-                    time.sleep(self.threading)  # Introduce a delay
-                    try:
-                        response = httphandler.get_status_code()  # Make sure this matches your method
-                    except Exception as e:
-                        print(f"[{self.minus}] Fuzzing error: {colored(full_url, "red")}, error: {e}")
-                        time.sleep(30)  # Waits 30 seconds if to many requests
-                        response = httphandler.get_status_code()  # Make sure this matches your method
-                    if response == 200:
-                        print(f"[{self.plus}] Response {response} from {colored(full_url, "green")}")
-                except KeyboardInterrupt:
-                    print(f"[{self.minus}] Fuzzing canceled.")
-                    break
+                    response = httphandler.get_status_code()  # Gets status code from combined URL
+                except Exception as e:
+                    print(f"[{self.minus}] Fuzzing error: {colored(full_url, 'red')}, error: {e}")
+                    time.sleep(30)  # Waits 30 seconds if too many requests
+                    response = httphandler.get_status_code()
+                if response == 200:
+                    print(f"[{self.plus}] Response {response} from {colored(full_url, 'green')}")
+            except KeyboardInterrupt:
+                print(f"[{self.minus}] Fuzzing canceled.")
+                break
+
+    def load_wordlist(self) -> List[str]:
+        with open(self.wordlist, "r") as wordlist:
+            return wordlist.readlines()  # Return all lines as a list of strings
