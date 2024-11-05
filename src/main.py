@@ -15,16 +15,17 @@ ___________
 
 
 class Main:
-    def __init__(self, wordlist: str, url: str):
+    def __init__(self, wordlist: str, url: str, threading: float):
         self.url = url
         self.wordlist = wordlist
+        self.threading = threading
 
     def start(self):
         print(f"[*] Fuzzing {self.url}")
-        httpfuzzer: HttpFuzzer = HttpFuzzer(self.wordlist, self.url)
+        httpfuzzer: HttpFuzzer = HttpFuzzer(self.wordlist, self.url, self.threading)
         httpfuzzer.fuzz_hidden_directories()
 
 
 if __name__ == '__main__':
     print(ascii_art())
-    Main("wordlists/subdomains-top1million.txt", "http://192.168.253.134").start()
+    Main("wordlists/subdomains-top1million.txt", "http://192.168.253.134", 0.1).start()
