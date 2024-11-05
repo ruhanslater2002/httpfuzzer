@@ -1,6 +1,3 @@
-from httphandler import HttpHandler
-from termcolor import colored
-
 
 class Main:
     def __init__(self):

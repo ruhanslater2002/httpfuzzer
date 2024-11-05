@@ -7,4 +7,3 @@ class HttpHandler:
 
     def get_status_code(self) -> int:
         return requests.get(self.url).status_code
-
