@@ -23,6 +23,8 @@ class HttpFuzzer:
                     # Gets status code from combined url
                     response: int = httphandler.get_status_code()
                     if response == 200:
-                        print(f"[{self.plus}] Response from {self.url}")
+                        print(f"[{self.plus}] Response {response} from {self.url}")
+                    # else:
+                    #     print(f"[{self.plus}] Response {response} from {self.url}")
                 except Exception as e:
                     print(f"[{self.minus}] Error: {e}")
