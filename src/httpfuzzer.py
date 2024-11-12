@@ -19,7 +19,7 @@ class HttpFuzzer:
             if not word:  # Skip empty lines
                 continue
             # Combines url and word
-            full_url: str = self.url + word
+            full_url: str = self.url + "/" + word
             # Creates the instance with the combined word
             http_handler: HttpHandler = HttpHandler(full_url)
             try:
