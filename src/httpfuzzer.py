@@ -19,13 +19,13 @@ class HttpFuzzer:
             if not word:  # Skip empty lines
                 continue
             # Combines url and word
-            full_url = f"{self.url}/{word}"
+            full_url: str = self.url + word
             # Creates the instance with the combined word
             http_handler: HttpHandler = HttpHandler(full_url)
             try:
                 time.sleep(self.threading)  # Introduce a delay
                 try:
-                    response = http_handler.get_status_code()  # Gets status code from combined URL
+                    response: int = http_handler.get_status_code()  # Gets status code from combined URL
                 except Exception as e:
                     self.logger.info(f"Fuzzing error: {colored(full_url, 'red')}, error: {e}")
                     time.sleep(30)  # Waits 30 seconds if too many requests
