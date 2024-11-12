@@ -22,8 +22,8 @@ class Main:
 
     def start(self):
         print(f"[*] Fuzzing: {self.url}, Threading in seconds: {self.threading}")
-        httpfuzzer: HttpFuzzer = HttpFuzzer(self.wordlist, self.url, self.threading)
-        httpfuzzer.fuzz_hidden_directories()
+        http_fuzzer: HttpFuzzer = HttpFuzzer(self.wordlist, self.url, self.threading)
+        http_fuzzer.fuzz_hidden_directories()
 
 
 if __name__ == '__main__':

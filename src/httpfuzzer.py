@@ -2,14 +2,12 @@ from httphandler import HttpHandler
 from termcolor import colored
 import time
 from typing import List
+from consolelogger import ConsoleLogger
 
 
 class HttpFuzzer:
     def __init__(self, wordlist: str, url: str, threading: float):
-        # Init colors
-        self.plus = colored("+", "green")
-        self.minus = colored("-", "red")
-
+        self.logger = ConsoleLogger("FUZZER")
         self.wordlist = wordlist
         self.url = url
         self.threading = threading
@@ -23,19 +21,19 @@ class HttpFuzzer:
             # Combines url and word
             full_url = f"{self.url}/{word}"
             # Creates the instance with the combined word
-            httphandler: HttpHandler = HttpHandler(full_url)
+            http_handler: HttpHandler = HttpHandler(full_url)
             try:
                 time.sleep(self.threading)  # Introduce a delay
                 try:
-                    response = httphandler.get_status_code()  # Gets status code from combined URL
+                    response = http_handler.get_status_code()  # Gets status code from combined URL
                 except Exception as e:
-                    print(f"[{self.minus}] Fuzzing error: {colored(full_url, 'red')}, error: {e}")
+                    self.logger.info(f"Fuzzing error: {colored(full_url, 'red')}, error: {e}")
                     time.sleep(30)  # Waits 30 seconds if too many requests
-                    response = httphandler.get_status_code()
+                    response = http_handler.get_status_code()
                 if response == 200:
-                    print(f"[{self.plus}] Response {response} from {colored(full_url, 'green')}")
+                    self.logger.info(f"Response {response} from {colored(full_url, 'green')}")
             except KeyboardInterrupt:
-                print(f"[{self.minus}] Fuzzing canceled.")
+                self.logger.error(f"Fuzzing canceled.")
                 break
 
     def load_wordlist(self) -> List[str]:
