@@ -29,7 +29,8 @@ class Main:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="HTTP Fuzzer for hidden directories")
-    parser.add_argument("-w", "--wordlist", type=str, default="wordlists/subdomains-top1million.txt", help="Path to the wordlist file")
+    parser.add_argument("-w", "--wordlist", type=str, default="wordlists/subdomains-top1million.txt",
+                        help="Path to the wordlist file")
     parser.add_argument("-u", "--url", type=str, required=True, help="Target URL to fuzz (e.g., http://example.com)")
     parser.add_argument("-t", "--threading", type=float, default=0, help="Threading delay in seconds (default: 0)")
     return parser.parse_args()
