@@ -18,13 +18,13 @@ class HttpFuzzer:
         wordlist: List[str] = self.load_wordlist()
 
         # Create a thread pool with a limited number of threads
-        threads = []
+        threads: threading = []
         for word in wordlist:
             word = word.strip()  # Use the assignment to strip whitespace
             if not word:  # Skip empty lines
                 continue
             # Combines url and word
-            full_url: str = "http://" + self.url + "/" + word
+            full_url: str = self.url + "/" + word
             # Create a thread for each URL
             thread = threading.Thread(target=self.fuzz_url, args=(full_url,))
             threads.append(thread)
